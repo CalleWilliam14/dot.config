@@ -13,6 +13,8 @@ Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'uiiaoo/java-syntax.vim'
 
+Plug 'tpope/vim-sleuth'
+
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 
