@@ -4,12 +4,20 @@ source $VIMRUNTIME/defaults.vim
 call plug#begin()
 
 Plug 'jiangmiao/auto-pairs'
+Plug 'preservim/nerdtree'
 
 " Plug 'nanotech/jellybeans.vim'
 Plug 'joshdick/onedark.vim'
 
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'uiiaoo/java-syntax.vim'
+
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 call plug#end()
 
@@ -29,7 +37,7 @@ function! OnLspBufferEnabled() abort
     nmap <buffer> <f2> <plug>(lsp-rename)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
+    nmap <buffer> <f3> <plug>(lsp-hover)
     nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
     nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 endfunction
@@ -41,11 +49,38 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call OnLspBufferEnabled()
 augroup END
 
-" jellybeans conf
-" if has('termguicolors')
-"     set termguicolors
-" endif
+" asyncomplete
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 " 
+" imap <c-space> <Plug>(asyncomplete_force_refresh)
+" For Vim 8 (<c-@> corresponds to <c-space>):
+" imap <c-@> <Plug>(asyncomplete_force_refresh)
+
+" nerdtree
+autocmd FileType nerdtree setlocal relativenumber
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
+
+" Close the tab if NERDTree is the only window remaining in it.
+" autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+ 
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
+
+nnoremap <C-b> :NERDTreeToggle<CR>
+
+if has('termguicolors')
+    set termguicolors
+endif
+
+" jellybeans conf
 " let g:jellybeans_overrides = {
 " \   'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
 " \}
@@ -58,10 +93,6 @@ augroup END
 " endif
 
 " onedark conf
-if has('termguicolors')
-    set termguicolors
-endif
-
 let g:onedark_color_overrides = {
 \ 'background': { 'gui': '#000000', 'cterm': '235', 'cterm16': '0' },
 \}
@@ -69,6 +100,18 @@ let g:onedark_color_overrides = {
 let g:onedark_terminal_italics = 1
 
 colorscheme onedark
+ 
+
+augroup desert_override
+    autocmd!
+    " I like green statements
+    autocmd ColorScheme desert hi Statement guifg=#5FD75F ctermfg=green
+    " I like transparent background for terminals
+    autocmd ColorScheme desert hi Normal ctermbg=NONE
+    " I like italic comments
+    autocmd ColorScheme desert hi Comment cterm=italic gui=italic
+    " etc ...
+augroup END
 
 " settings
 set guicursor=n-v-c:block,o:hor50,i-ci:hor15,r-cr:hor30,sm:block
