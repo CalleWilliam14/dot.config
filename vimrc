@@ -6,12 +6,13 @@ call plug#begin()
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
 
-" Plug 'nanotech/jellybeans.vim'
 Plug 'joshdick/onedark.vim'
 
 Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'herringtondarkholme/yats.vim'
 Plug 'uiiaoo/java-syntax.vim'
+Plug 'vim-language-dept/css-syntax.vim'
 
 Plug 'tpope/vim-sleuth'
 
@@ -82,18 +83,6 @@ if has('termguicolors')
     set termguicolors
 endif
 
-" jellybeans conf
-" let g:jellybeans_overrides = {
-" \   'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
-" \}
-" 
-" if has('termguicolors') && &termguicolors
-"     set cursorline
-"     :highlight CursorLine cterm=bold ctermbg=black
-"     let g:jellybeans_overrides['background']['guibg'] = 'none'
-"     colorscheme jellybeans
-" endif
-
 " onedark conf
 let g:onedark_color_overrides = {
 \ 'background': { 'gui': '#000000', 'cterm': '235', 'cterm16': '0' },
@@ -103,18 +92,6 @@ let g:onedark_terminal_italics = 1
 
 colorscheme onedark
  
-
-augroup desert_override
-    autocmd!
-    " I like green statements
-    autocmd ColorScheme desert hi Statement guifg=#5FD75F ctermfg=green
-    " I like transparent background for terminals
-    autocmd ColorScheme desert hi Normal ctermbg=NONE
-    " I like italic comments
-    autocmd ColorScheme desert hi Comment cterm=italic gui=italic
-    " etc ...
-augroup END
-
 " settings
 set guicursor=n-v-c:block,o:hor50,i-ci:hor15,r-cr:hor30,sm:block
 set mouse=
